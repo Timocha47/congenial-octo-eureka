@@ -1,0 +1,26 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Timur Industries calculator">
+  <title>Timur Industries Calculator</title>
+  <link rel="stylesheet" href="css/base.css">
+  <link rel="stylesheet" href="css/calculator.css">
+  <link rel="stylesheet" href="css/panels.css">
+</head>
+<body>
+  <main id="app" aria-live="polite"></main>
+  <script type="module">
+    const app = document.getElementById('app');
+    const response = await fetch('./index1(HTML%20div%20CALCUL)');
+
+    if (!response.ok) {
+      throw new Error(`Не удалось загрузить интерфейс: ${response.status}`);
+    }
+
+    app.innerHTML = await response.text();
+    await import('./app.js');
+  </script>
+</body>
+</html>
