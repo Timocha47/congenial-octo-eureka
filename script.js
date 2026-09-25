@@ -125,14 +125,18 @@ function convertPercent() {
 }
 
 function calculate(firstValue, secondValue, operator) {
-  const operations = {
-    '+': firstValue + secondValue,
-    '-': firstValue - secondValue,
-    '*': firstValue * secondValue,
-    '/': secondValue === 0 ? Infinity : firstValue / secondValue
-  };
-
-  return operations[operator];
+  switch (operator) {
+    case '+':
+      return firstValue + secondValue;
+    case '-':
+      return firstValue - secondValue;
+    case '*':
+      return firstValue * secondValue;
+    case '/':
+      return secondValue === 0 ? Infinity : firstValue / secondValue;
+    default:
+      return NaN;
+  }
 }
 
 function chooseOperator(nextOperator) {
