@@ -145,6 +145,15 @@ function chooseOperator(nextOperator) {
   if (state.operator && !state.awaitingNextValue) {
     const result = calculate(Number(state.previousValue), inputValue, state.operator);
     state.currentValue = formatNumber(result);
+
+    if (isErrorState()) {
+      state.previousValue = null;
+      state.operator = null;
+      state.awaitingNextValue = false;
+      state.lastExpression = state.currentValue;
+      return;
+    }
+
     state.previousValue = state.currentValue;
   } else {
     state.previousValue = state.currentValue;
