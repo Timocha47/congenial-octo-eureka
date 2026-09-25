@@ -105,6 +105,11 @@ button:hover {
   background: #d1d5db;
 }
 
+button:focus-visible {
+  outline: 3px solid #111827;
+  outline-offset: 3px;
+}
+
 .accent {
   background: #dbeafe;
   color: #1d4ed8;
