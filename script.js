@@ -222,9 +222,11 @@ document.querySelector('.keypad').addEventListener('click', (event) => {
   render();
 });
 
-clearHistoryButton.addEventListener('click', () => {
-  state.history = [];
-  render();
-});
+if (clearHistoryButton) {
+  clearHistoryButton.addEventListener('click', () => {
+    state.history = [];
+    render();
+  });
+}
 
 render();
