@@ -173,6 +173,16 @@ function runCalculation() {
   const secondValue = Number(state.currentValue);
   const result = calculate(firstValue, secondValue, state.operator);
   const formatted = formatNumber(result);
+
+  if (formatted === 'Error') {
+    state.currentValue = formatted;
+    state.previousValue = null;
+    state.operator = null;
+    state.awaitingNextValue = false;
+    state.lastExpression = formatted;
+    return;
+  }
+
   const historyEntry = `${firstValue} ${state.operator} ${secondValue} = ${formatted}`;
 
   state.history = [historyEntry, ...state.history].slice(0, 8);
