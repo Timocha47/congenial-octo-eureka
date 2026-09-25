@@ -10,4 +10,4 @@ Multifunctional Calculator "Timur Industries"
 
 ## Usage
 
-Open `/home/runner/work/congenial-octo-eureka/congenial-octo-eureka/index.html` in a browser to use the calculator.
+Open `index.html` from the repository root in a browser to use the calculator.

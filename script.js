@@ -29,13 +29,20 @@ function render() {
   expression.textContent = state.lastExpression;
 
   if (!state.history.length) {
-    historyList.innerHTML = '<li class="history__empty">No calculations yet.</li>';
+    const emptyItem = document.createElement('li');
+    emptyItem.className = 'history__empty';
+    emptyItem.textContent = 'No calculations yet.';
+    historyList.replaceChildren(emptyItem);
     return;
   }
 
-  historyList.innerHTML = state.history
-    .map((entry) => `<li>${entry}</li>`)
-    .join('');
+  historyList.replaceChildren(
+    ...state.history.map((entry) => {
+      const item = document.createElement('li');
+      item.textContent = entry;
+      return item;
+    })
+  );
 }
 
 function resetCalculator() {
