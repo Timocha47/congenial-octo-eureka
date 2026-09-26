@@ -1,4 +1,5 @@
-export function flashElement(element, className = 'is-updated', duration = 220) {
+(function () {
+function flashElement(element, className = 'is-updated', duration = 220) {
   if (!element) return;
   element.classList.remove(className);
   void element.offsetWidth;
@@ -6,8 +7,11 @@ export function flashElement(element, className = 'is-updated', duration = 220) 
   window.setTimeout(() => element.classList.remove(className), duration);
 }
 
-export function animateNumber(element, value, formatter = String) {
+function animateNumber(element, value, formatter = String) {
   if (!element) return;
   element.textContent = formatter(value);
   flashElement(element);
 }
+
+window.CalcAnimations = { flashElement, animateNumber };
+})();

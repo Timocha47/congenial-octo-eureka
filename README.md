@@ -1,13 +1,19 @@
-# congenial-octo-eureka
+# Timur Industries Calculator
 
-Multifunctional Calculator "Timur Industries"
+Многофункциональный калькулятор для GitHub Pages.
 
-## Included structure
+## Структура
 
-- `index.html` - calculator layout and history panel
-- `styles.css` - responsive styling for the calculator UI
-- `script.js` - calculator logic for arithmetic, sign toggle, percent, delete, and history
+- `index.html` - точка входа приложения; содержит разметку интерфейса и подключает скрипты обычными тегами `<script>` (без `type="module"`) в порядке зависимостей
+- `app.js` - запуск калькулятора через глобальную функцию `window.initCalculator`
+- `js/calculator.js` - основная логика калькулятора, использует `window.CalcMath`, `window.CalcValidation`, `window.CalcAnimations`
+- `js/modules/` - математические функции (`math.js` → `window.CalcMath`), валидация ввода (`validation.js` → `window.CalcValidation`) и анимации (`animations.js` → `window.CalcAnimations`)
+- `css/` - базовые стили (`base.css`), стили калькулятора (`calculator.css`) и панелей (`panels.css`)
 
-## Usage
+## Запуск
 
-Open `index.html` from the repository root in a browser to use the calculator.
+Скрипты подключены как обычные (не ES-модули), поэтому калькулятор работает во всех браузерах, включая Chrome, при открытии напрямую через `file://` — без сервера и без `fetch`. Достаточно открыть `index.html` в браузере (двойным кликом) или опубликовать репозиторий через GitHub Pages.
+
+## Доступность
+
+Все `<label>` в формах (конвертер, ИМТ, даты, скидки/налоги, разделение счёта) связаны с полями через атрибут `for`, совпадающий с `id` поля. Раньше эта связь отсутствовала, из-за чего скринридеры не озвучивали подпись поля, а клик по надписи не переводил фокус в него — это делало формы менее удобными для людей с ограниченными возможностями. Теперь связь установлена для всех 16 полей.

@@ -296,10 +296,6 @@
       background: linear-gradient(180deg, rgba(255,255,255,0.82), rgba(246,249,255,0.96));
     }
 
-    .side-panel {
-      display: none !important;
-    }
-
     .tab-row {
       display: flex;
       flex-wrap: wrap;

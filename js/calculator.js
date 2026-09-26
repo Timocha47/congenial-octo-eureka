@@ -1,12 +1,10 @@
-import { evaluateExpression, formatNumber, performCalculation } from './modules/math.js';
-import { parseNumericInput } from './modules/validation.js';
-import { animateNumber } from './modules/animations.js';
+const { evaluateExpression, formatNumber, performCalculation } = window.CalcMath;
+const { parseNumericInput } = window.CalcValidation;
+const { animateNumber } = window.CalcAnimations;
 
-export const initCalculator = () => {
+const initCalculator = () => {
   const body = document.body || document.querySelector('body');
   if (!body) return;
-
-
 
   const display = document.getElementById('display');
   const expressionText = document.getElementById('expressionText');
@@ -78,7 +76,6 @@ export const initCalculator = () => {
 
   function pushHistory(label, value) {
     state.history.unshift({ label, value: String(value) });
-    state.history = state.history.slice(0, 8);
     updateHistory();
   }
 
@@ -149,7 +146,14 @@ export const initCalculator = () => {
       updateDisplay();
       return;
     }
-    if (state.waitingForSecondValue) return;
+    if (state.waitingForSecondValue && state.operator !== null) {
+      state.displayValue = formatNumber(state.firstValue);
+      state.operator = null;
+      state.firstValue = null;
+      state.waitingForSecondValue = false;
+      updateDisplay();
+      return;
+    }
     state.displayValue = state.displayValue.length > 1 ? state.displayValue.slice(0, -1) : '0';
     updateDisplay();
   }
@@ -334,13 +338,9 @@ export const initCalculator = () => {
       case 'sqrt': result = Math.sqrt(value); break;
       case 'square': result = value * value; break;
       case 'cube': result = value * value * value; break;
-      case 'factorial': {
-        if (value < 0 || !Number.isInteger(value)) { result = 'Error'; break; }
-        let fact = 1;
-        for (let i = 2; i <= value; i += 1) fact *= i;
-        result = fact;
-        break;
-      }
+      case 'factorial':
+        applyFactorial();
+        return;
       case 'sin': result = state.angleMode === 'DEG' ? Math.sin(value * Math.PI / 180) : Math.sin(value); break;
       case 'cos': result = state.angleMode === 'DEG' ? Math.cos(value * Math.PI / 180) : Math.cos(value); break;
       case 'tan': result = state.angleMode === 'DEG' ? Math.tan(value * Math.PI / 180) : Math.tan(value); break;
@@ -735,3 +735,5 @@ export const initCalculator = () => {
   document.querySelector('.tab-btn[data-panel="scientific"]').style.display = 'none';
   fxToggle.textContent = state.angleMode;
 };
+
+window.initCalculator = initCalculator;

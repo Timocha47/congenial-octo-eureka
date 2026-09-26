@@ -153,10 +153,6 @@
     }
 
     @media (max-width: 840px) {
-      .workspace {
-        grid-template-columns: 1fr;
-      }
-
       .calc-app {
         padding: 9px;
       }

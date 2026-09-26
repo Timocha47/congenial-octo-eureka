@@ -1,4 +1,5 @@
-export function formatNumber(value) {
+(function () {
+function formatNumber(value) {
   if (value === null || value === undefined || value === '') return '0';
   const number = Number(value);
   if (!Number.isFinite(number)) return 'Error';
@@ -8,7 +9,7 @@ export function formatNumber(value) {
   return Number(number.toFixed(10)).toString();
 }
 
-export function performCalculation(first, second, operator) {
+function performCalculation(first, second, operator) {
   switch (operator) {
     case '+': return first + second;
     case '-': return first - second;
@@ -18,7 +19,7 @@ export function performCalculation(first, second, operator) {
   }
 }
 
-export function evaluateExpression(expression) {
+function evaluateExpression(expression) {
   const tokens = expression.match(/\d*\.?\d+|[()+\-*/]/g);
   if (!tokens || tokens.join('') !== expression.replace(/\s/g, '')) throw new Error('Invalid expression');
   let position = 0;
@@ -67,3 +68,6 @@ export function evaluateExpression(expression) {
   if (position !== tokens.length || !Number.isFinite(result)) throw new Error('Invalid expression');
   return result;
 }
+
+window.CalcMath = { formatNumber, performCalculation, evaluateExpression };
+})();
