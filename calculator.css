@@ -1,0 +1,170 @@
+    .keypad {
+      display: grid;
+      grid-template-columns: repeat(5, minmax(0, 1fr));
+      gap: 6px;
+      width: 100%;
+      max-width: 620px;
+      margin: 0 auto;
+    }
+
+    .key {
+      height: 62px;
+      border: 1px solid rgba(255,255,255,0.05);
+      border-radius: 12px;
+      font-size: 1.2rem;
+      font-weight: 700;
+      cursor: pointer;
+      transition: transform 0.18s ease, box-shadow 0.2s ease, border-color 0.2s ease;
+      color: var(--text);
+      background: linear-gradient(180deg, rgba(255,255,255,0.10), rgba(255,255,255,0.02));
+      box-shadow: inset 0 1px 0 rgba(255,255,255,0.06), 0 8px 18px rgba(0,0,0,0.18);
+    }
+
+    .key[data-action="digit"] {
+      font-size: 1.42rem;
+      font-weight: 800;
+    }
+
+    .key[data-action="operator"],
+    .key[data-action="decimal"],
+    .key[data-action="equals"],
+    .key[data-action="toggle-sign"],
+    .key[data-action="percent"] {
+      font-size: 1.38rem;
+      font-weight: 800;
+    }
+
+    .key:hover {
+      transform: translateY(-2px);
+      border-color: rgba(123, 215, 255, 0.38);
+      box-shadow: 0 12px 22px rgba(0,0,0,0.24), 0 0 18px rgba(123, 215, 255, 0.10);
+    }
+
+    .key.operator {
+      background: linear-gradient(135deg, rgba(139, 125, 255, 0.42), rgba(123, 215, 255, 0.14));
+      color: #ffffff;
+      box-shadow: inset 0 1px 0 rgba(255,255,255,0.08), 0 10px 20px rgba(139, 125, 255, 0.18);
+    }
+
+    body.light-mode .key {
+      color: #17273d;
+    }
+
+    body.light-mode .key.operator {
+      color: #1a2540;
+    }
+
+    body.light-mode .key.utility {
+      color: #1b2330;
+    }
+
+    .key.operator[data-value="-"] {
+      font-size: 1.75rem;
+      font-weight: 900;
+      letter-spacing: 0.02em;
+      line-height: 1;
+    }
+
+    .key.operator[data-value="*"] {
+      font-size: 1.65rem;
+      font-weight: 900;
+      line-height: 1;
+    }
+
+    .key.utility {
+      background: linear-gradient(135deg, rgba(255, 197, 123, 0.22), rgba(255, 126, 182, 0.18));
+      color: #fff9ef;
+      box-shadow: inset 0 1px 0 rgba(255,255,255,0.06), 0 8px 18px rgba(255, 143, 189, 0.08);
+    }
+
+    .key.utility,
+    .key.percent,
+    .key.danger {
+      font-size: 1.12rem;
+    }
+
+    .key[data-action="angle-mode"] {
+      font-size: 0.82rem;
+      letter-spacing: 0;
+      padding: 0 2px;
+      white-space: nowrap;
+    }
+
+    .angle-mode-label {
+      display: inline-flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      line-height: 0.95;
+      gap: 2px;
+      white-space: nowrap;
+    }
+
+    .key.danger {
+      background: linear-gradient(135deg, rgba(255, 82, 106, 0.78), rgba(190, 35, 72, 0.82));
+      border-color: rgba(255, 145, 158, 0.48);
+      color: #ffffff;
+    }
+
+    .key.percent {
+      background: linear-gradient(135deg, rgba(52, 211, 153, 0.78), rgba(16, 145, 104, 0.84));
+      border-color: rgba(118, 255, 202, 0.48);
+      color: #effff8;
+    }
+
+    .key.primary {
+      background: linear-gradient(135deg, #9ef3ff, #b8b2ff 42%, #ffdca1);
+      color: #091725;
+      font-size: 1.3rem;
+      box-shadow: 0 12px 24px rgba(143, 227, 255, 0.24);
+    }
+
+    .converter-btn,
+    .special-btn,
+    .mini-btn {
+      font-size: 1.08rem;
+    }
+
+    .key.wide {
+      grid-column: span 2;
+    }
+
+    .is-updated {
+      animation: value-pulse 220ms ease;
+    }
+
+    @keyframes value-pulse {
+      0% { opacity: 0.55; transform: translateY(2px); }
+      100% { opacity: 1; transform: translateY(0); }
+    }
+
+    .function-row {
+      grid-column: 1 / -1;
+      display: grid;
+      grid-template-columns: repeat(5, minmax(0, 1fr));
+      gap: 6px;
+    }
+
+    @media (min-width: 640px) {
+      body {
+        padding: 10px;
+      }
+
+      .calc-app {
+        border-radius: 20px;
+        padding: 11px;
+      }
+    }
+
+    @media (min-width: 900px) {
+      body {
+        align-items: center;
+        padding: 14px;
+      }
+
+      .calc-app {
+        border-radius: 22px;
+        padding: 12px;
+      }
+    }
+
