@@ -2,6 +2,10 @@
 
 Многофункциональный калькулятор для GitHub Pages.
 
+## Демо
+
+Открыть опубликованный калькулятор: https://timocha47.github.io/congenial-octo-eureka/
+
 ## Интерфейс
 
 ![Интерфейс калькулятора](images/calculator-preview.png)
