@@ -154,11 +154,11 @@
               <div class="field-row">
                 <div class="field">
                   <label for="bmiHeight">Height (cm)</label>
-                  <input id="bmiHeight" type="number" value="170" />
+                  <input id="bmiHeight" type="number" value="170" min="0.01" step="any" required />
                 </div>
                 <div class="field">
                   <label for="bmiWeight">Weight (kg)</label>
-                  <input id="bmiWeight" type="number" value="70" />
+                  <input id="bmiWeight" type="number" value="70" min="0.01" step="any" required />
                 </div>
               </div>
               <button class="special-btn" id="bmiBtn">Calculate BMI</button>
@@ -170,11 +170,11 @@
               <div class="field-row">
                 <div class="field">
                   <label for="dateStart">Start date</label>
-                  <input id="dateStart" type="date" value="2025-01-01" />
+                  <input id="dateStart" type="date" value="2025-01-01" required />
                 </div>
                 <div class="field">
                   <label for="dateEnd">End date</label>
-                  <input id="dateEnd" type="date" value="2025-12-31" />
+                  <input id="dateEnd" type="date" value="2025-12-31" required />
                 </div>
               </div>
               <button class="special-btn" id="dateBtn">Difference in days</button>
@@ -221,7 +221,7 @@
               <div class="field-row">
                 <div class="field">
                   <label for="tipPeople">Number of people</label>
-                  <input id="tipPeople" type="number" value="4" min="1" />
+                  <input id="tipPeople" type="number" value="4" min="1" required />
                 </div>
                 <div class="field">
                   <label for="tipEach">Per person</label>

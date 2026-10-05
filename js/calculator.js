@@ -227,19 +227,20 @@ const initCalculator = () => {
     if (state.firstValue === null) {
       state.firstValue = inputValue;
     } else if (state.operator) {
-      if (!state.waitingForSecondValue) {
-        state.expression = `${formatNumber(state.firstValue)}${state.operator}${formatNumber(inputValue)}${nextOperator}`;
-        state.displayValue = state.expression;
-        state.firstValue = null;
-        state.operator = null;
-        state.waitingForSecondValue = true;
-        state.percentPending = false;
+      if (state.waitingForSecondValue) {
+        state.operator = nextOperator;
         updateDisplay();
         return;
       }
-      const result = performCalculation(Number(state.firstValue), inputValue, state.operator);
-      state.firstValue = result;
-      state.displayValue = String(result);
+
+      state.expression = `${formatNumber(state.firstValue)}${state.operator}${formatNumber(inputValue)}${nextOperator}`;
+      state.displayValue = state.expression;
+      state.firstValue = null;
+      state.operator = null;
+      state.waitingForSecondValue = true;
+      state.percentPending = false;
+      updateDisplay();
+      return;
     }
 
     state.operator = nextOperator;
@@ -442,7 +443,10 @@ const initCalculator = () => {
       case 'factorial': applyFactorial(); break;
       case 'power': applyPower(); break;
       case 'toggle-root': applyRoot(); break;
-      case 'scientific': applyUnary(value); break;
+      case 'scientific':
+        if (value === 'percent') applyPercent();
+        else applyUnary(value);
+        break;
       case 'constant': applyUnary(value); break;
       case 'pi': applyUnary('pi'); break;
       case 'angle-mode': toggleAngleMode(); break;
@@ -560,7 +564,10 @@ const initCalculator = () => {
     document.getElementById('converterResult').textContent = `${formatNumber(firstValue)} ${firstLabel} = ${formatNumber(secondValue)} ${secondLabel}`;
   }
 
-  document.getElementById('converterCategory').addEventListener('change', populateConverterOptions);
+  document.getElementById('converterCategory').addEventListener('change', () => {
+    populateConverterOptions();
+    convertValue();
+  });
   document.getElementById('fromUnit').addEventListener('change', convertValue);
   document.getElementById('toUnit').addEventListener('change', convertValue);
   document.getElementById('converterValue').addEventListener('input', convertValue);
@@ -571,15 +578,26 @@ const initCalculator = () => {
   document.getElementById('bmiBtn').addEventListener('click', () => {
     const height = parseNumericInput(document.getElementById('bmiHeight').value, 0) / 100;
     const weight = parseNumericInput(document.getElementById('bmiWeight').value, 0);
+    if (height <= 0 || weight <= 0) {
+      document.getElementById('bmiResult').textContent = 'Enter a valid height and weight greater than 0';
+      return;
+    }
     const bmi = weight / (height * height);
     document.getElementById('bmiResult').textContent = `BMI: ${formatNumber(bmi)} (${bmi < 18.5 ? 'Underweight' : bmi < 25 ? 'Normal' : bmi < 30 ? 'Overweight' : 'Obesity'})`;
   });
 
   document.getElementById('dateBtn').addEventListener('click', () => {
-    const start = new Date(document.getElementById('dateStart').value);
-    const end = new Date(document.getElementById('dateEnd').value);
+    const startValue = document.getElementById('dateStart').value;
+    const endValue = document.getElementById('dateEnd').value;
+    const result = document.getElementById('dateResult');
+    if (!startValue || !endValue) {
+      result.textContent = 'Enter both dates';
+      return;
+    }
+    const start = new Date(startValue);
+    const end = new Date(endValue);
     const diffDays = Math.round((end - start) / (1000 * 60 * 60 * 24));
-    document.getElementById('dateResult').textContent = `${diffDays} days`;
+    result.textContent = Number.isFinite(diffDays) ? `${diffDays} days` : 'Enter valid dates';
   });
 
   document.getElementById('discountBtn').addEventListener('click', () => {
@@ -594,7 +612,12 @@ const initCalculator = () => {
   document.getElementById('tipBtn').addEventListener('click', () => {
     const bill = parseNumericInput(document.getElementById('tipBill').value, 0);
     const percent = parseNumericInput(document.getElementById('tipPercent').value, 0);
-    const people = parseNumericInput(document.getElementById('tipPeople').value, 1);
+    const peopleInput = document.getElementById('tipPeople');
+    if (!peopleInput.checkValidity()) {
+      peopleInput.reportValidity();
+      return;
+    }
+    const people = parseNumericInput(peopleInput.value, 0);
     const total = bill * (1 + percent / 100);
     const each = total / people;
     document.getElementById('tipEach').value = formatNumber(each);
