@@ -9,6 +9,18 @@ function formatNumber(value) {
   return Number(number.toFixed(10)).toString();
 }
 
+function formatDisplayValue(value) {
+  return String(value).replace(/\d+(?:\.\d*)?(?:e[+-]?\d+)?/gi, (number) => {
+    const exponentIndex = number.search(/e/i);
+    const mantissa = exponentIndex < 0 ? number : number.slice(0, exponentIndex);
+    const exponent = exponentIndex < 0 ? '' : number.slice(exponentIndex);
+    const decimalIndex = mantissa.indexOf('.');
+    const integer = decimalIndex < 0 ? mantissa : mantissa.slice(0, decimalIndex);
+    const fraction = decimalIndex < 0 ? '' : mantissa.slice(decimalIndex);
+    return `${integer.replace(/\B(?=(\d{3})+(?!\d))/g, ' ')}${fraction}${exponent}`;
+  });
+}
+
 function performCalculation(first, second, operator) {
   switch (operator) {
     case '+': return first + second;
@@ -69,5 +81,5 @@ function evaluateExpression(expression) {
   return result;
 }
 
-window.CalcMath = { formatNumber, performCalculation, evaluateExpression };
+window.CalcMath = { formatNumber, formatDisplayValue, performCalculation, evaluateExpression };
 })();

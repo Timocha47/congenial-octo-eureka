@@ -1,4 +1,4 @@
-const { evaluateExpression, formatNumber, performCalculation } = window.CalcMath;
+const { evaluateExpression, formatNumber, formatDisplayValue, performCalculation } = window.CalcMath;
 const { parseNumericInput } = window.CalcValidation;
 const { animateNumber } = window.CalcAnimations;
 
@@ -41,9 +41,9 @@ const initCalculator = () => {
 
   function updateDisplay() {
     if (state.expression !== null) {
-      display.textContent = state.expression || '0';
+      display.textContent = formatDisplayValue(state.expression || '0');
     } else {
-      animateNumber(display, state.displayValue, formatNumber);
+      animateNumber(display, state.displayValue, formatDisplayValue);
     }
     const expressionLabel = state.expression !== null ? 'Expression' : state.operator && state.firstValue !== null
       ? `${formatNumber(state.firstValue)} ${state.operator}`
