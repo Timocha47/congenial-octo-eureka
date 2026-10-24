@@ -62,8 +62,8 @@ const initCalculator = () => {
     historyList.innerHTML = state.history
       .map((entry) => `
         <li class="history-item">
-          <small>${entry.label}</small>
-          <span>${entry.value}</span>
+          <small>${formatDisplayValue(entry.label)}</small>
+          <span>${formatDisplayValue(entry.value)}</span>
         </li>
       `)
       .join('');
