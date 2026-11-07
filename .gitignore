@@ -1,0 +1,10 @@
+node_modules/
+release/
+native/www/
+android/.gradle/
+android/local.properties
+android/capacitor-cordova-android-plugins/
+android/app/build/
+ios/Pods/
+ios/App/Pods/
+ios/DerivedData/

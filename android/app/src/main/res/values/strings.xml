@@ -1,0 +1,8 @@
+<?xml version='1.0' encoding='utf-8'?>
+<resources>
+    <string name="app_name">Timur Industries Calculator</string>
+    <string name="title_activity_main">Timur Industries Calculator</string>
+    <string name="open_source_licenses">Open-source licenses</string>
+    <string name="package_name">com.timurindustries.calculator</string>
+    <string name="custom_url_scheme">com.timurindustries.calculator</string>
+</resources>

@@ -1,0 +1,8 @@
+{
+  "appId": "com.timurindustries.calculator",
+  "appName": "Timur Industries Calculator",
+  "webDir": "native/www",
+  "android": {
+    "allowMixedContent": false
+  }
+}

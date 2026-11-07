@@ -357,11 +357,12 @@ const initCalculator = () => {
       default: break;
     }
 
-    if (result === 'Error') {
+    const formattedResult = formatNumber(result);
+    if (formattedResult === 'Error') {
       state.displayValue = 'Error';
     } else {
-      state.displayValue = String(result);
-      pushHistory(op, formatNumber(result));
+      state.displayValue = formattedResult;
+      pushHistory(op, formattedResult);
     }
     state.firstValue = null;
     state.operator = null;
