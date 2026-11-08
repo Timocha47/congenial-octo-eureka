@@ -136,6 +136,11 @@
       margin-top: 8px;
     }
 
+    body.light-mode .panel-wrap[data-panel="converter"] .converter-btn,
+    body.light-mode .panel-wrap[data-panel="special"] .special-btn {
+      color: #ffffff;
+    }
+
     .result-box {
       margin-top: 10px;
       padding: 12px;

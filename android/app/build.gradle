@@ -57,16 +57,58 @@ tasks.configureEach {
             }
 
             def licenseTitle = 'Capacitor Android'
-            if (licenseMetadataFile.readLines('UTF-8').any { it.endsWith(" $licenseTitle") }) {
-                return
+            if (!licenseMetadataFile.readLines('UTF-8').any { it.endsWith(" $licenseTitle") }) {
+                def licenseEntry = "${licenseTitle}\n\n${licenseTextFile.getText('UTF-8').trim()}\n"
+                def licenseEntryBytes = licenseEntry.getBytes('UTF-8')
+                def licenseOffset = bundledLicensesFile.length()
+
+                bundledLicensesFile.append(licenseEntry, 'UTF-8')
+                licenseMetadataFile.append("${licenseOffset}:${licenseEntryBytes.length} ${licenseTitle}\n", 'UTF-8')
             }
 
-            def licenseEntry = "${licenseTitle}\n\n${licenseTextFile.getText('UTF-8').trim()}\n"
-            def licenseEntryBytes = licenseEntry.getBytes('UTF-8')
-            def licenseOffset = bundledLicensesFile.length()
+            def licenseBytes = bundledLicensesFile.bytes
+            def metadataLines = licenseMetadataFile.readLines('UTF-8')
+            def licenseEntries = metadataLines.collect { line ->
+                def matcher = line =~ /^(\d+):(\d+) (.+)$/
+                if (!matcher.matches()) {
+                    throw new GradleException("Invalid open-source license metadata entry: $line")
+                }
 
-            bundledLicensesFile.append(licenseEntry, 'UTF-8')
-            licenseMetadataFile.append("${licenseOffset}:${licenseEntryBytes.length} ${licenseTitle}\n", 'UTF-8')
+                def offset = matcher[0][1].toInteger()
+                def length = matcher[0][2].toInteger()
+                [
+                    offset: offset,
+                    length: length,
+                    name: matcher[0][3],
+                    text: new String(licenseBytes, offset, length, 'UTF-8')
+                ]
+            }
+            def apacheLicense = licenseEntries.find { entry ->
+                def text = entry.text.trim()
+                text.startsWith('Apache License') &&
+                    text.contains('Version 2.0') &&
+                    text.contains('END OF TERMS AND CONDITIONS')
+            }
+
+            if (apacheLicense == null) {
+                throw new GradleException('Full Apache 2.0 license text was not found in generated license resources')
+            }
+
+            def replacedApacheUrl = false
+            def updatedMetadata = licenseEntries.collect { entry ->
+                if (entry.text.trim() in [
+                    'http://www.apache.org/licenses/LICENSE-2.0.txt',
+                    'https://www.apache.org/licenses/LICENSE-2.0.txt'
+                ]) {
+                    replacedApacheUrl = true
+                    return "${apacheLicense.offset}:${apacheLicense.length} ${entry.name}"
+                }
+                "${entry.offset}:${entry.length} ${entry.name}"
+            }
+
+            if (replacedApacheUrl) {
+                licenseMetadataFile.setText(updatedMetadata.join('\n') + '\n', 'UTF-8')
+            }
         }
     }
 }
